@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui'
 
 // 创建axios实例
 const service = axios.create({
@@ -8,9 +9,23 @@ const service = axios.create({
   timeout: 10000
 })
 
-// 响应拦截器
+// 响应拦截器，状态200返回
 service.interceptors.response.use(res => {
-  return res.data
+  console.log('iii', res)
+  // 得到code
+  const code = res.data.code
+  const msg = res.data.message
+  if (code === 500) {
+    // return Promise.reject(new Error(msg))
+    Message({
+      message: msg,
+      type: 'error'
+    })
+  } else if (code !== 200) {
+    return Promise.reject(new Error('!err'))
+  } else {
+    return res.data
+  }
 })
 
 export default service

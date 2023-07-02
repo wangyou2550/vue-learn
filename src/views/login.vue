@@ -96,7 +96,15 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch('Login', this.loginForm).then((res) => {
-            console.log('abcd', res)
+            // 登录成功后，页面跳转
+            // console.log('abcd', res)
+            this.$router.push('/')
+          }).catch((err) => {
+            console.log(err)
+            // 登录失败，获取新的验证码
+            if (this.captchaOnOff) {
+              this.getCode()
+            }
           })
         }
       })

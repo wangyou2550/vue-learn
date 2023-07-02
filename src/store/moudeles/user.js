@@ -28,6 +28,9 @@ const user = {
           commit('SET_TOKEN', res.token)
           // 成功后调用resolve
           resolve(res)
+        }).catch(error => {
+          // 捕获异常自己处理
+          reject(error)
         })
       })
     }

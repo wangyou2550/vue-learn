@@ -74,14 +74,17 @@ export default {
   created () {
     this.getCode()
   },
-  // watch: {
-  //   $route: {
-  //     handler: function (route) {
-  //       this.redirect = route.query && route.query.redirect
-  //     },
-  //     immediate: true
-  //   }
-  // },
+  watch: {
+    $route: {
+      handler: function (route) {
+        console.log('gsdrouter', route)
+        // 定义了一个redirect,关键是route的通信
+        this.redirect = route.query && route.query.redirect
+      },
+      // 第一次就会触发
+      immediate: true
+    }
+  },
   methods: {
     getCode () {
       getCodeImg().then(res => {
@@ -97,6 +100,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch('Login', this.loginForm).then((res) => {
+            // 如何有转发，转发，不然就/
             this.$router.push({ path: this.redirect || '/' })
           }).catch(() => {
             if (this.captchaOnOff) {

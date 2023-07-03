@@ -1,8 +1,9 @@
 
 import { login } from '@/api/login'
+import { setToken, getToken } from '@/utils/auth'
 const user = {
   state: {
-    token: ''
+    token: getToken()
   },
   // 变化
   mutations: {
@@ -25,6 +26,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
           console.log('abcd', res)
+          setToken(res.token)
           commit('SET_TOKEN', res.token)
           // 成功后调用resolve
           resolve(res)

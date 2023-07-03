@@ -14,7 +14,8 @@ service.interceptors.response.use(res => {
   console.log('iii', res)
   // 得到code
   const code = res.data.code
-  const msg = res.data.message
+  const msg = res.data.msg
+  console.log('123', msg)
   if (code === 500) {
     // return Promise.reject(new Error(msg))
     Message({

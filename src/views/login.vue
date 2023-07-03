@@ -45,7 +45,7 @@
 import { getCodeImg } from '../api/login'
 
 export default {
-  name: 'my_login',
+  name: 'MyLogin',
   data () {
     return {
       loginForm: {
@@ -85,6 +85,7 @@ export default {
   methods: {
     getCode () {
       getCodeImg().then(res => {
+        console.log('345', res)
         this.captchaOnOff = res.captchaOnOff === undefined ? true : res.captchaOnOff
         if (this.captchaOnOff) {
           this.codeUrl = 'data:image/gif;base64,' + res.img
@@ -96,12 +97,8 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch('Login', this.loginForm).then((res) => {
-            // 登录成功后，页面跳转
-            // console.log('abcd', res)
-            this.$router.push('/')
-          }).catch((err) => {
-            console.log(err)
-            // 登录失败，获取新的验证码
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(() => {
             if (this.captchaOnOff) {
               this.getCode()
             }
